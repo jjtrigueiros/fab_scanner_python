@@ -17,4 +17,19 @@ dependencies = [
     "requests-toolbelt>=1.0.0",
     "typer>=0.13.1",
     "sqlalchemy>=2.0.36",
+    "psycopg2>=2.9.10",
+]
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.4",
+    "ruff>=0.8.4",
+    "jupyterlab>=4.3.4",
+    "sqlacodegen-v2>=0.1.4",
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
 ]
