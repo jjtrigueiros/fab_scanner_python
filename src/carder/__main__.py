@@ -1,4 +1,4 @@
-from carder.cli.carder import app_factory
+from carder import cli
 
-app = app_factory()
-app()
+
+cli.run()

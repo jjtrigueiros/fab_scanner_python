@@ -13,3 +13,8 @@ def app_factory():
     _ = app.command("scan")(scan)
 
     return app
+
+
+def run():
+    app = app_factory()
+    app()

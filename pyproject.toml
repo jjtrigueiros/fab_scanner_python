@@ -1,5 +1,5 @@
 [project]
-name = "smartbinder"
+name = "fabscan"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -17,3 +17,6 @@ dependencies = [
     "requests-toolbelt>=1.0.0",
     "typer>=0.13.1",
 ]
+
+[project.scripts]
+fabscan = "carder.cli:run"
