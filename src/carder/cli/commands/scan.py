@@ -4,8 +4,8 @@ from loguru import logger
 import heapq
 
 from carder.cli.settings import settings
-from carder.services.image_hashing import ImageHashingService
-from carder.services.local_storage import LocalStorageService
+from carder.services.image_hashers import PHasher
+from carder.services.local_storage import LocalCardStorage
 from carder.services.scanner import (
     get_webcam_feed,
     preprocess_image,
@@ -13,15 +13,16 @@ from carder.services.scanner import (
     warp_card,
 )
 
+from carder.services.db import Session
 
 def scan():
     asyncio.run(scan_async())
 
 
 async def scan_async() -> None:
-    hashing = ImageHashingService()
-    local_storage = LocalStorageService(settings.sqlite_db, settings.images_dir)
-    cards_iterable = await local_storage.fetch_images_and_hashes()
+    hashing = PHasher()
+    local_storage = LocalCardStorage(Session(), settings.images_dir)
+    cards_iterable = local_storage.fetch_images_and_hashes()
     image_feed = get_webcam_feed(0)
 
     cv2.namedWindow("preview")
@@ -56,8 +57,8 @@ async def scan_async() -> None:
         # best_match, confidence_scores = match_card(frame_warped, card_scans)with in_card.open("rb") as in_f:
         top_results = []
         for card in cards_iterable:
-            score = hashing.compare_hashes(card.get("phash"), input_hash)
-            entry = (100 - score, card.get("image"))
+            score = hashing.compare_hashes(card[2], input_hash)
+            entry = (100 - score, card[1])
             if len(top_results) < 5:
                 heapq.heappush(top_results, entry)
             else:

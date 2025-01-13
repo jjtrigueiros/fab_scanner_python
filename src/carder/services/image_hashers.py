@@ -1,9 +1,15 @@
 from PIL import Image
 import imagehash
 import io
+import typing as t
 
 
-class ImageHashingService:
+class ImageHasher(t.Protocol):
+    def hash_image(self, img_bytes: bytes) -> str: ...
+    def compare_hashes(self, hash_1: str, hash_2: str) -> int: ...
+
+
+class PHasher:
     def __init__(self):
         pass
 
