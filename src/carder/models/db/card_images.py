@@ -11,5 +11,5 @@ class CardImage(Base):
     name: Mapped[str] = mapped_column()
     pitch: Mapped[int | None] = mapped_column()
     print_id: Mapped[str] = mapped_column()
-    image: Mapped[str] = mapped_column(unique=True)
+    image: Mapped[str] = mapped_column()
     hash: Mapped[str] = mapped_column()
