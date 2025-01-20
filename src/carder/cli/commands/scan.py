@@ -15,15 +15,15 @@ from carder.services.scanner import (
 
 from carder.services.db import Session
 
-def scan():
-    asyncio.run(scan_async())
+def scan(camera_id: int = 0):
+    asyncio.run(scan_async(camera_id))
 
 
-async def scan_async() -> None:
+async def scan_async(camera_id: int = 0) -> None:
     hashing = PHasher()
     local_storage = LocalCardStorage(Session(), settings.images_dir)
     cards_iterable = local_storage.fetch_images_and_hashes()
-    image_feed = get_webcam_feed(0)
+    image_feed = get_webcam_feed(camera_id)
 
     cv2.namedWindow("preview")
     cv2.namedWindow("preprocess")
